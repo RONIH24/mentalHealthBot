@@ -1,0 +1,138 @@
+<!--adapted from buma.io template under MIT liscence-->
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Terapeut</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="logo.png" />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <section class="description">
+        <div class="text">
+          <h1 class="title">Terapeut</h1>
+          <p class="text">
+            Terapeut is the online therapist open to anyone. terapeut enables
+            you to speak your feelings, without having to have someone on the
+            other side. This enables more people to access therapy at a time
+            without waiting for live asssistance. Terapeut also allows people to
+            do this anonymously. One of the other great advantages of Terapeut
+            is that for people who feel anxiety and dont feel safe confessing to
+            a human, a robot will not judge you and will always be accepting!
+          </p>
+        </div>
+      </section>
+      <section class="bot">
+        <iframe
+          allow="microphone;"
+          width="100%"
+          height="400"
+          src="https://console.dialogflow.com/api-client/demo/embedded/ae4eb7a2-75ce-4a86-b2dd-3f7142b943fc"
+        >
+        </iframe>
+      </section>
+    </div>
+    <script>
+      var about = document.getElementById("about");
+      about.onmouseover = function () {
+        document.getElementById("about-nav").className =
+          "navbar-item is-active";
+        document.getElementById("devs-nav").className = "navbar-item";
+        document.getElementById("chat-nav").className = "navbar-item";
+        document.getElementById("mobile-nav").className = "navbar-item";
+        document.getElementById("analytics-nav").className = "navbar-item";
+      };
+      var chat = document.getElementById("chat");
+      chat.onmouseover = function () {
+        document.getElementById("chat-nav").className = "navbar-item is-active";
+        document.getElementById("devs-nav").className = "navbar-item";
+        document.getElementById("mobile-nav").className = "navbar-item";
+        document.getElementById("about-nav").className = "navbar-item";
+        document.getElementById("analytics-nav").className = "navbar-item";
+      };
+      var analytics = document.getElementById("analytics");
+      analytics.onmouseover = function () {
+        document.getElementById("analytics-nav").className =
+          "navbar-item is-active";
+        document.getElementById("devs-nav").className = "navbar-item";
+        document.getElementById("chat-nav").className = "navbar-item";
+        document.getElementById("mobile-nav").className = "navbar-item";
+        document.getElementById("about-nav").className = "navbar-item";
+      };
+      var devs = document.getElementById("devs");
+      devs.onmouseover = function () {
+        document.getElementById("devs-nav").className = "navbar-item is-active";
+        document.getElementById("about-nav").className = "navbar-item";
+        document.getElementById("chat-nav").className = "navbar-item";
+        document.getElementById("mobile-nav").className = "navbar-item";
+        document.getElementById("analytics-nav").className = "navbar-item";
+      };
+
+      (function () {
+        var burger = document.querySelector("#nav-toggle");
+        var menu = document.querySelector(".navbar-menu");
+        burger.addEventListener("click", function () {
+          burger.classList.toggle("is-active");
+          menu.classList.toggle("is-active");
+        });
+      })();
+      var settings = {
+        async: true,
+        crossDomain: true,
+        url: "https://hasura-10910.herokuapp.com/v1alpha1/graphql",
+        method: "POST",
+        headers: {
+          origin: "https://hasura-10910.herokuapp.com",
+          "accept-encoding": "gzip, deflate, br",
+          "accept-language": "en-US,en;q=0.9,la;q=0.8",
+          "user-agent":
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36",
+          "content-type": "application/json",
+          accept: "*/*",
+          referer: "https://hasura-10910.herokuapp.com/console/api-explorer",
+          connection: "keep-alive",
+          "cache-control": "no-cache",
+        },
+        data: '{"query":"mutation {\\n  update_terapeut(where: {chats: {_is_null: false}}, _inc: {chats: 1}) {\\n    returning {\\n      chats\\n    }\\n  }\\n}\\n","variables":null}',
+      };
+      $.ajax(settings).done((res) => {
+        var people = res.data.update_terapeut.returning[0].chats;
+        document.getElementById("people").innerHTML = people;
+      });
+      function onclick() {
+        var settings = {
+          async: true,
+          crossDomain: true,
+          url: "https://hasura-10910.herokuapp.com/v1alpha1/graphql",
+          method: "POST",
+          headers: {
+            origin: "https://hasura-10910.herokuapp.com",
+            "accept-encoding": "gzip, deflate, br",
+            "accept-language": "en-US,en;q=0.9,la;q=0.8",
+            "user-agent":
+              "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.103 Safari/537.36",
+            "content-type": "application/json",
+            accept: "*/*",
+            referer: "https://hasura-10910.herokuapp.com/console/api-explorer",
+            connection: "keep-alive",
+            "cache-control": "no-cache",
+            "postman-token": "ed405fa1-ba45-97b3-f394-70581bb9f82d",
+          },
+          data: '{"query":"mutation {\\n  update_terapeut(_inc: {tesxtsent: 1}, where: {tesxtsent: {}}) {\\n    returning {\\n      tesxtsent\\n    }\\n  }\\n}\\n","variables":null}',
+        };
+
+        $.ajax(settings).done(function (response) {
+          document.getElementById("texts").innerHTML =
+            response.data.update_terapeut.returning[0].tesxtsent;
+        });
+      }
+    </script>
+  </body>
+</html>
